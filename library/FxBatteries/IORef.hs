@@ -1,7 +1,7 @@
 module FxBatteries.IORef
 where
 
-import FxBatteries.Prelude
+import FxBatteries.Prelude as Prelude
 import Fx
 
 
@@ -48,3 +48,9 @@ Adaptation of `interactAtomically` to the `State` monad.
 -}
 runStateAtomically :: State a b -> Fx (IORef a) err b
 runStateAtomically = interactAtomically . runState
+
+{-|
+Helper executing the reader monad.
+-}
+runReader :: Reader a b -> Fx (IORef a) err b
+runReader m = handleEnv (runTotalIO . fmap (Prelude.runReader m) . readIORef)
