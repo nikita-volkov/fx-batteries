@@ -21,7 +21,7 @@ read = handleEnv (runTotalIO . readIORef)
 Wrapper around `writeIORef`.
 -}
 write :: a -> Fx (IORef a) err ()
-write a = handleEnv (\ ref -> runTotalIO (writeIORef ref a))
+write !a = handleEnv (\ ref -> runTotalIO (writeIORef ref a))
 
 {-|
 Wrapper around `modifyIORef'`.
