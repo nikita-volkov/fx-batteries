@@ -1,3 +1,3 @@
 resolver: https://raw.githubusercontent.com/metrix-ai/stack-snapshot/54.2/snapshot.yaml
 extra-deps:
-- {git: "https://github.com/nikita-volkov/fx", commit: "7c038a96084dba6987f85d32b80237b85dcf67df"}
+- {git: "https://github.com/nikita-volkov/fx", commit: "fda353717b8a07882ece8b3d3a96c39eb9a7aaf6"}
