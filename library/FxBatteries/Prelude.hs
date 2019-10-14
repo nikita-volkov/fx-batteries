@@ -64,7 +64,7 @@ import Numeric as Exports
 import Prelude as Exports hiding (map, fail, concat, foldr, mapM_, sequence_, foldl1, maximum, minimum, product, sum, all, and, any, concatMap, elem, foldl, foldr1, notElem, or, mapM, sequence, id, (.))
 import System.Environment as Exports
 import System.Exit as Exports
-import System.IO as Exports (Handle, hClose)
+import System.IO as Exports
 import System.IO.Error as Exports
 import System.IO.Unsafe as Exports
 import System.Mem as Exports
@@ -94,6 +94,14 @@ import Fx as Exports (Provider, Fx, Future, Conc, FxRunning(..), ErrHandling(..)
 -- stm
 -------------------------
 import Control.Concurrent.STM as Exports
+
+-- text
+-------------------------
+import Data.Text as Exports (Text)
+
+-- bytestring
+-------------------------
+import Data.ByteString as Exports (ByteString)
 
 -- Synonyms for better naming
 -------------------------
