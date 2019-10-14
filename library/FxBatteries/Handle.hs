@@ -13,8 +13,8 @@ Access a file.
 
 Wrapper over `openFile` and `hClose`.
 -}
-accessFile :: Text -> IOMode -> Provider IOError Handle
-accessFile path ioMode =
+accessFile :: IOMode -> Text -> Provider IOError Handle
+accessFile ioMode path =
   acquireAndRelease
     (runExceptionalIO (openFile (Text.unpack path) ioMode))
     (runExceptionalIO . hClose)
