@@ -8,6 +8,12 @@ import qualified System.Directory as Dir
 
 
 {-|
+Wrapper around @`Dir.createDirectoryIfMissing` `True`@.
+-}
+createDirectoryRecursively :: Text -> Fx env IOError ()
+createDirectoryRecursively path = runExceptionalIO (Dir.createDirectoryIfMissing True (Text.unpack path))
+
+{-|
 Wrapper around `Dir.listDirectory`.
 -}
 listDirectory :: Text -> Fx env IOError [Text]
