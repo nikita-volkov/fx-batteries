@@ -18,3 +18,9 @@ Wrapper around `Dir.listDirectory`.
 -}
 listDirectory :: Text -> Fx env IOError [Text]
 listDirectory path = runExceptionalIO (fmap (fmap Text.pack) (Dir.listDirectory (Text.unpack path)))
+
+{-|
+Wrapper around `Dir.removeFile`.
+-}
+removeFile :: Text -> Fx env IOError ()
+removeFile path = runExceptionalIO (Dir.removeFile (Text.unpack path))
