@@ -16,7 +16,11 @@ Wrapper over `openFile` and `hClose`.
 accessFile :: IOMode -> FilePath -> Provider IOError Handle
 accessFile ioMode path =
   acquireAndRelease
-    (runExceptionalIO (openFile path ioMode))
+    (runExceptionalIO (do
+      handle <- openFile path ioMode
+      hSetBuffering handle NoBuffering
+      return handle
+    ))
     (runExceptionalIO . hClose)
 
 {-|
