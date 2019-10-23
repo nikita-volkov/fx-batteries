@@ -8,6 +8,8 @@ import qualified Data.Text as Text
 import qualified System.Directory as Dir
 
 
+type DirOrFilePath b = Either (Path b Dir) (Path b File)
+
 {-|
 Wrapper around @`Dir.createDirectoryIfMissing` `True`@.
 -}
@@ -17,7 +19,7 @@ createDirectoryRecursively path = runExceptionalIO (Dir.createDirectoryIfMissing
 {-|
 Wrapper around `Dir.listDirectory`.
 -}
-listDirectory :: Path b Dir -> Fx env IOError [Either (Path Rel Dir) (Path Rel File)]
+listDirectory :: Path b Dir -> Fx env IOError [DirOrFilePath Rel]
 listDirectory path = do
   fpList <- runExceptionalIO (Dir.listDirectory (toFilePath path))
   forM fpList $ \ fp -> case parseRelDir fp of
