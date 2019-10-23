@@ -3,24 +3,23 @@ where
 
 import FxBatteries.Prelude as Prelude
 import Fx
-import qualified Data.Text as Text
 import qualified System.Directory as Dir
 
 
 {-|
 Wrapper around @`Dir.createDirectoryIfMissing` `True`@.
 -}
-createDirectoryRecursively :: Text -> Fx env IOError ()
-createDirectoryRecursively path = runExceptionalIO (Dir.createDirectoryIfMissing True (Text.unpack path))
+createDirectoryRecursively :: FilePath -> Fx env IOError ()
+createDirectoryRecursively path = runExceptionalIO (Dir.createDirectoryIfMissing True path)
 
 {-|
 Wrapper around `Dir.listDirectory`.
 -}
-listDirectory :: Text -> Fx env IOError [Text]
-listDirectory path = runExceptionalIO (fmap (fmap Text.pack) (Dir.listDirectory (Text.unpack path)))
+listDirectory :: FilePath -> Fx env IOError [FilePath]
+listDirectory path = runExceptionalIO (Dir.listDirectory path)
 
 {-|
 Wrapper around `Dir.removeFile`.
 -}
-removeFile :: Text -> Fx env IOError ()
-removeFile path = runExceptionalIO (Dir.removeFile (Text.unpack path))
+removeFile :: FilePath -> Fx env IOError ()
+removeFile path = runExceptionalIO (Dir.removeFile path)
