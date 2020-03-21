@@ -3,23 +3,48 @@ where
 
 import FxBatteries.Prelude as Prelude
 import Fx
-import qualified System.Directory as Dir
+import qualified System.IO.Temp as Temporary
+import qualified System.Directory as Directory
+import qualified Data.Text.IO as Text
 
 
 {-|
-Wrapper around @`Dir.createDirectoryIfMissing` `True`@.
+Wrapper around @`Directory.createDirectoryIfMissing` `True`@.
 -}
 createDirectoryRecursively :: FilePath -> Fx env IOError ()
-createDirectoryRecursively path = runExceptionalIO (Dir.createDirectoryIfMissing True path)
+createDirectoryRecursively path = runExceptionalIO (Directory.createDirectoryIfMissing True path)
 
 {-|
-Wrapper around `Dir.listDirectory`.
+Wrapper around `Directory.listDirectory`.
 -}
 listDirectory :: FilePath -> Fx env IOError [FilePath]
-listDirectory path = runExceptionalIO (Dir.listDirectory path)
+listDirectory path = runExceptionalIO (Directory.listDirectory path)
 
 {-|
-Wrapper around `Dir.removeFile`.
+Wrapper around `Directory.removeFile`.
 -}
 removeFile :: FilePath -> Fx env IOError ()
-removeFile path = runExceptionalIO (Dir.removeFile path)
+removeFile path = runExceptionalIO (Directory.removeFile path)
+
+{-|
+Create a temporary directory.
+-}
+createTmpDir :: Fx env IOError FilePath
+createTmpDir = runExceptionalIO $ do
+  dir <- Temporary.getCanonicalTemporaryDirectory
+  Temporary.createTempDirectory dir "coalmine"
+
+{-|
+Delete directory.
+-}
+deleteDir :: FilePath -> Fx env IOError ()
+deleteDir dir = runExceptionalIO $ Directory.removeDirectoryRecursive dir
+
+{-|
+Move file to one location from another, producing its new file path.
+-}
+moveFile :: FilePath -> FilePath -> Fx env IOError FilePath
+moveFile to from = error "TODO"
+
+writeTextToFile :: FilePath -> Text -> Fx env IOError ()
+writeTextToFile path text = runExceptionalIO $ Text.writeFile path text

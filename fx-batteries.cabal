@@ -33,5 +33,6 @@ library
     directory,
     fx,
     stm,
+    temporary,
     text,
     transformers
