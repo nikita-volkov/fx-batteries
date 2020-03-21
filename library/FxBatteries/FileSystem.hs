@@ -32,7 +32,7 @@ Create a temporary directory.
 createTmpDir :: Fx env IOError FilePath
 createTmpDir = runExceptionalIO $ do
   dir <- Temporary.getCanonicalTemporaryDirectory
-  Temporary.createTempDirectory dir "coalmine"
+  Temporary.createTempDirectory dir "fx-batteries"
 
 {-|
 Delete directory.
