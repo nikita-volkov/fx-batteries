@@ -24,6 +24,7 @@ library
     FxBatteries.FileSystem
     FxBatteries.Handle
     FxBatteries.IORef
+    FxBatteries.MVar
   other-modules:
     FxBatteries.Prelude
   build-depends:
