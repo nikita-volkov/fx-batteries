@@ -16,21 +16,21 @@ Wrapper over `openFile` and `hClose`.
 accessFile :: IOMode -> FilePath -> Provider IOError Handle
 accessFile ioMode path =
   acquireAndRelease
-    (runExceptionalIO (do
+    (runExceptionalIO $ const $ do
       handle <- openFile path ioMode
       hSetBuffering handle NoBuffering
       return handle
-    ))
-    (runExceptionalIO . hClose)
+    )
+    (runExceptionalIO hClose)
 
 {-|
 Write bytes.
 -}
 putByteString :: ByteString -> Fx Handle IOError ()
-putByteString byteString = handleEnv (\ handle -> runExceptionalIO (ByteString.hPut handle byteString))
+putByteString byteString = runExceptionalIO (\ handle -> ByteString.hPut handle byteString)
 
 {-|
 Write text, encoding it using UTF-8.
 -}
 putText :: Text -> Fx Handle IOError ()
-putText text = handleEnv (\ handle -> runExceptionalIO (Text.hPutStr handle text))
+putText text = runExceptionalIO (\ handle -> Text.hPutStr handle text)

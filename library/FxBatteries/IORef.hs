@@ -9,19 +9,19 @@ import Fx
 Wrapper around `newIORef`.
 -}
 new :: a -> Provider err (IORef a)
-new a = runFx (runTotalIO (newIORef a))
+new a = runFx (runTotalIO (const (newIORef a)))
 
 {-|
 Wrapper around `readIORef`.
 -}
 read :: Fx (IORef a) err a
-read = handleEnv (runTotalIO . readIORef)
+read = runTotalIO readIORef
 
 {-|
 Wrapper around `writeIORef`.
 -}
 write :: a -> Fx (IORef a) err ()
-write !a = handleEnv (\ ref -> runTotalIO (writeIORef ref a))
+write !a = runTotalIO (\ ref -> writeIORef ref a)
 
 {-|
 Wrapper around `modifyIORef'`.
@@ -31,7 +31,7 @@ To protect from a common pitfall of piling up thunks,
 this function is strict and no lazy version is provided.
 -}
 modify :: (a -> a) -> Fx (IORef a) err ()
-modify fn = handleEnv (\ ref -> runTotalIO (modifyIORef' ref fn))
+modify fn = runTotalIO (\ ref -> modifyIORef' ref fn)
 
 {-|
 Wrapper around `atomicModifyIORef'`.
@@ -41,7 +41,7 @@ To protect from a common pitfall of piling up thunks,
 this function is strict and no lazy version is provided.
 -}
 interactAtomically :: (a -> (b, a)) -> Fx (IORef a) err b
-interactAtomically fn = handleEnv (\ ref -> runTotalIO (atomicModifyIORef' ref (swap . fn)))
+interactAtomically fn = runTotalIO (\ ref -> atomicModifyIORef' ref (swap . fn))
 
 {-|
 Adaptation of `interactAtomically` to the `State` monad.
@@ -53,4 +53,4 @@ runStateAtomically = interactAtomically . runState
 Helper executing the reader monad.
 -}
 runReader :: Reader a b -> Fx (IORef a) err b
-runReader m = handleEnv (runTotalIO . fmap (Prelude.runReader m) . readIORef)
+runReader m = runTotalIO (fmap (Prelude.runReader m) . readIORef)

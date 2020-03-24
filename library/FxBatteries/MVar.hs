@@ -9,19 +9,19 @@ import Fx
 Analogue to `newMVar`.
 -}
 new :: a -> Provider err (MVar a)
-new a = runFx (runTotalIO (newMVar a))
+new a = runFx (runTotalIO (const (newMVar a)))
 
 {-|
 Analogue to `takeMVar`.
 -}
 take :: Fx (MVar a) err a
-take = handleEnv (runTotalIO . takeMVar)
+take = runTotalIO takeMVar
 
 {-|
 Analogue to `putMVar`.
 -}
 put :: a -> Fx (MVar a) err ()
-put !a = handleEnv (\ var -> runTotalIO (putMVar var a))
+put !a = runTotalIO (\ var -> putMVar var a)
 
 {-|
 Analogue to `readMVar`.
