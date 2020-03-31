@@ -12,6 +12,12 @@ new :: a -> Provider err (MVar a)
 new a = runFx (runTotalIO (const (newMVar a)))
 
 {-|
+Analogue to `newEmptyMVar`.
+-}
+newEmpty :: Provider err (MVar a)
+newEmpty = runFx (runTotalIO (const newEmptyMVar))
+
+{-|
 Analogue to `takeMVar`.
 -}
 take :: Fx (MVar a) err a
